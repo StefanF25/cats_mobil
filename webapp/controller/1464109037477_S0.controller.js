@@ -41,24 +41,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller"], function(BaseController) {
 
 		},
 		_onPressSapResponsivePage0footersapmBar1contentRightsapmButton1: function() {
-			/*
-			var oView = this.getView();
-			var oLsart = oView.byId("ipt_leistungsart");
-			var valLsart = oLsart.getValue;
-			var valLsart2 = oLsart.value;
-			var valLsart3 = oLsart.getProperty('value');
-			
-			
-			var oForm = this.getView().byId("form");
-			
-			alert("- "+oView+"\n- "+oLsart+"\n- "+valLsart+"\n- "+valLsart2+"\n- "+valLsart3+"\n- "+oForm);
-			*/
 			var oEntry = {};
-			/*oEntry.Stunden = "3";
-			oEntry.Kostenstelle = "0815";
-			oEntry.Eauftrnr = "12841";
-			oEntry.Lsart = "3";*/
-			
 			
 			oEntry.Stunden = parseInt(this.getView().byId("ipt_dauer").getProperty('value'));
 			oEntry.Kostenstelle = this.getView().byId("ipt_senderkostenstelle").getProperty('value');
