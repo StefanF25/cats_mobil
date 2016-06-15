@@ -2,15 +2,18 @@ sap.ui.define(["sap/ui/core/mvc/Controller"], function(BaseController) {
 	"use strict";
 
 	return BaseController.extend("generated.app.controller.1464109037477_S0", {
-
+		
 		onInit: function() {
 			this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			this.oRouter.getTarget("1464109037477_S0").attachDisplay(jQuery.proxy(this.handleRouteMatched, this));
 			
+			var date = new Date();
+			window.fullDatum = date.toLocaleDateString();
+			//var fullDatum = "" + date.getFullYear() + date.getMonth() + date.getDate();
 			
 				var oModel = new sap.ui.model.json.JSONModel();
 				oModel.loadData(
-						"/sap/opu/odata/sap/Z_CATS_API_SRV/CATS_DATASet('000000000001')?$format=json", "",
+						"/sap/opu/odata/sap/Z_CATS_API_SRV/CATS_DATASet('" + date.toLocaleDateString()+ "')?$format=json", "",
 						false);
 
 				this.getView().setModel(oModel);
@@ -21,7 +24,21 @@ sap.ui.define(["sap/ui/core/mvc/Controller"], function(BaseController) {
 		handleCalendarSelect: function(oEvent) {
 			var oCalendar = oEvent.oSource;
 			console.log(oCalendar);
-			alert(oCalendar._oFocusedDate);
+			//alert(oCalendar._oFocusedDate);
+			var aSelectedDates = oCalendar.getSelectedDates();
+			var oDate;
+			oDate = aSelectedDates[0].getStartDate();
+							
+			var month = oDate.getMonth() + 1;
+			//if (month < 10) month = '0' + month;
+			window.fullDatum = oDate.getDate() + "." +  month + "." + oDate.getFullYear();
+			
+			var oModel = new sap.ui.model.json.JSONModel();
+			oModel.loadData(
+					"/sap/opu/odata/sap/Z_CATS_API_SRV/CATS_DATASet('" + window.fullDatum + "')?$format=json", "",
+					false);
+
+			this.getView().setModel(oModel);
 
 		},
 		
@@ -47,6 +64,7 @@ sap.ui.define(["sap/ui/core/mvc/Controller"], function(BaseController) {
 			oEntry.Kostenstelle = this.getView().byId("ipt_senderkostenstelle").getProperty('value');
 			oEntry.Eauftrnr = this.getView().byId("ipt_auftragsnummer").getProperty('value');
 			oEntry.Lsart = this.getView().byId("ipt_leistungsart").getProperty('value');
+			oEntry.Workda = window.fullDatum;
 			
 			var oModel = new sap.ui.model.odata.ODataModel("/sap/opu/odata/SAP/Z_CATS_API_SRV", true);
 			sap.ui.getCore().setModel(oModel);
